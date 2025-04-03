@@ -10,7 +10,7 @@ type ExtendedFrameContext = {
 
 export default function Home() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
-  const extendedContext = context as ExtendedFrameContext;
+  const extendedContext = (context ?? {}) as ExtendedFrameContext;
 
   useEffect(() => {
     if (!isFrameReady) setFrameReady();
