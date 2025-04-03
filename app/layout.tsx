@@ -5,17 +5,23 @@ import { Providers } from './components/providers';
 export const metadata = {
   title: 'Warp Buddy',
   description: 'Farcaster Onboarding Tool',
-  // IMPORTANT: This meta tag must be exactly what the Farcaster Frame system expects.
   other: {
     'fc:frame': JSON.stringify({
-      version: "vNext", // note: use "vNext" (not "next")
-      image: "https://warp-buddy.vercel.app/og.png", // use a real image URL or placeholder
+      version: "next",                // Use "next", not "vNext"
+      imageUrl: "https://warp-buddy.vercel.app/og.png", // Key must be imageUrl
+      aspectRatio: "3:2",             // Required aspect ratio
       button: {
-        label: "Enter", // button text
-        action: "https://warp-buddy.vercel.app" // MUST exactly match your deployed URL
+        title: "Enter",               // Use "title" instead of "label"
+        action: {                     // Action must be an object
+          type: "launch_frame",
+          name: "Enter",
+          url: "https://warp-buddy.vercel.app", // Must exactly match your deployed URL
+          splashImageUrl: "https://warp-buddy.vercel.app/splash.png", // Example splash image
+          splashBackgroundColor: "#000" // Example background color
+        }
       }
     })
-  }
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
