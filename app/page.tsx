@@ -1,27 +1,29 @@
 'use client';
 
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useEffect } from 'react';
+import { useMiniKit, useAuthenticate } from '@coinbase/onchainkit/minikit';
 
-type ExtendedFrameContext = {
-  fid: number;
-  username?: string;
-};
-
-export default function Home() {
+export default function Page() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
-  const extendedContext = (context ?? {}) as ExtendedFrameContext;
+  const { signIn } = useAuthenticate();
 
   useEffect(() => {
     if (!isFrameReady) setFrameReady();
   }, [isFrameReady]);
 
-  if (!context) return <div>Loading...</div>;
+  const handleSignIn = async () => {
+    const result = await signIn();
+    if (result) {
+      console.log('SIWF result', result);
+    }
+  };
 
   return (
     <div>
-      <p>FID: {extendedContext.fid}</p>
-      <p>Username: {extendedContext.username || 'Unknown'}</p>
+      <h1>Hi {(context as any)?.viewer?.username || 'anon'}!</h1>
+      <p>FID: {(context as any)?.viewer?.fid}</p>
+
+      <button onClick={handleSignIn}>Sign In with Farcaster</button>
     </div>
   );
 }
