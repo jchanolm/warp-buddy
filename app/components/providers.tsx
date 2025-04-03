@@ -1,15 +1,15 @@
-// components/providers.tsx
+// app/components/providers.tsx
 'use client';
 
-import { ReactNode } from 'react';
 import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 import { base } from 'viem/chains';
 
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <MiniKitProvider
-      projectId="your-project-id"
+      projectId={process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_ID!}
       chain={base}
+      notificationProxyUrl="/api/notification"
     >
       {children}
     </MiniKitProvider>
